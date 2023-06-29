@@ -1,8 +1,14 @@
 package it.polito.tdp.nyc;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.nyc.model.Arco;
 import it.polito.tdp.nyc.model.Model;
+import it.polito.tdp.nyc.model.NTA;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -41,7 +47,7 @@ public class FXMLController {
     private TableColumn<?, ?> clV2; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbBorough"
-    private ComboBox<?> cmbBorough; // Value injected by FXMLLoader
+    private ComboBox<String> cmbBorough; // Value injected by FXMLLoader
 
     @FXML // fx:id="tblArchi"
     private TableView<?> tblArchi; // Value injected by FXMLLoader
@@ -58,17 +64,37 @@ public class FXMLController {
     @FXML
     void doAnalisiArchi(ActionEvent event) {
     	
-
+    	List<Arco> archi = model.analisiArchi();
+    	for(Arco a: archi) {
+    		this.txtResult.appendText(a+"\n");
+    	}
     }
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
+    	String borough = cmbBorough.getValue();
+    	if(borough == null) {
+    		this.txtResult.appendText("Seleziona una voce\n");
+    		return;
+    	}
     	
+    	model.creaGrafo(borough);
+  //  	this.txtResult.append("Grafo creato correttamente");
     }
 
     @FXML
     void doSimula(ActionEvent event) {
 
+    	double prob = Double.parseDouble(this.txtProb.getText());
+    	int duration = Integer.parseInt(this.txtDurata.getText());
+    	
+    	
+    	
+    	Map<NTA, Integer> condivisioni = model.simula(prob, duration);
+    	
+    	for(NTA n : condivisioni.keySet()) {
+    		this.txtResult.appendText(n.getNTACode()+" "+condivisioni.get(n)+"\n");
+    	}
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -90,6 +116,8 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	List<String> boroughs = model.getBoroughs();
+    	this.cmbBorough.getItems().addAll(boroughs);
     }
 
 }

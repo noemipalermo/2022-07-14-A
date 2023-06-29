@@ -1,0 +1,19 @@
+ - NUOVO FILE CONDIVISO IN UN NTA CASUALE (1) Tempo t
+ 
+ - Tempo T+1:  ri-condivido il file in UNO degli NTA adiacenti a (1) : NTA(2)
+ 
+ - Tempo T+2: ri-condivido il file in UNO degli NTA adiacentia (2)
+ 
+ EVENTO: Nuova o Ri-Condivisione (SHARE)
+- Tempo t
+- NTA 
+- Durata d
+
+EVENTO: Termina la condivisione (STOP)
+- Tempo t
+- NTa
+
+Può succedere che due nodi al tempo t vedano lo stesso nodo libero e condividano entrambi con quel nodo 
+che quidni al tempo t+1 avra 2 share
+A(t) -> B(t+1)
+C(t) -> B(t+1)
